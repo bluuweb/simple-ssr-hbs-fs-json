@@ -1,0 +1,34 @@
+<h1>Todos Page</h1>
+
+<form action="/todos" method="POST">
+    <input type="text" placeholder="Ingrese todo" name="title">
+    <button type="submit">Agregar</button>
+</form>
+
+<ul>
+
+    {{#each todos}}
+
+    <li>
+        <input type="checkbox" {{#if completed}} checked {{/if}} disabled>
+
+        {{title}}
+
+        <button onclick="todoDelete('{{id}}')">Eliminar</button>
+        <a href="/todos/edit/{{id}}">Actualizar</a>
+    </li>
+
+    {{/each}}
+
+</ul>
+
+<script>
+    const todoDelete = async (id) => {
+        const response = await fetch(`/todos/${id}`, {
+            method: "DELETE"
+        })
+        if (response.ok) {
+            window.location.reload()
+        }
+    }
+</script>

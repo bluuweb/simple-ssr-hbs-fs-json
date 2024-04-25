@@ -1,0 +1,40 @@
+<h1>Editar {{todo.title}}</h1>
+
+<form id="form">
+    <input type="hidden" value="{{todo.id}}" id="id">
+    <input type="text" value="{{todo.title}}" id="title">
+    <input type="checkbox" {{#if todo.completed}}checked{{/if}} id="completed">
+    <button type="submit">Editar todo</button>
+</form>
+
+<script>
+    const form = document.getElementById('form')
+    const title = document.getElementById('title')
+    const completed = document.getElementById('completed')
+    const id = document.getElementById('id')
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault()
+
+        const todo = {
+            id: id.value,
+            title: title.value,
+            completed: completed.checked
+        }
+
+        const response = await fetch(`/todos/${todo.id}`, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(todo)
+        })
+
+        if (response.ok) {
+            window.location.href = "/todos"
+        }
+
+
+    })
+
+</script>
